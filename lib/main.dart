@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'ui/pages/home/home_page.dart';
+import 'package:flutter_google_auth/ui/app.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }

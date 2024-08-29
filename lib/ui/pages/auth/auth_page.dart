@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter_google_auth/ui/templates/default/default_template.dart';
 
-class HomePage extends HookWidget {
-  const HomePage({super.key});
+class AuthPage extends HookWidget {
+  const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,11 @@ class HomePage extends HookWidget {
           const Padding(
             padding: EdgeInsets.only(top: 50),
             child: Text(
-              'Home Page',
+              'Auth Page',
             ),
           ),
           ElevatedButton(
-            onPressed: () => context.go('/auth'),
+            onPressed: () => context.go('/'),
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3.0),
@@ -32,7 +32,7 @@ class HomePage extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Go to AuthPage',
+                  'Go to HomePage',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
