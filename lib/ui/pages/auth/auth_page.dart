@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:flutter_google_auth/ui/templates/default/default_template.dart';
+
+import 'components/google_sign_in_button.dart';
+import 'components/social_media_divider.dart';
+import 'components/sign_in_title.dart';
 
 class AuthPage extends HookWidget {
   const AuthPage({super.key});
@@ -13,33 +16,20 @@ class AuthPage extends HookWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 50),
-            child: Text(
-              'Auth Page',
-            ),
+          const SignInTitle(),
+          Image.asset(
+            'assets/images/logo.png',
+            width: 200,
+            height: 200,
           ),
-          ElevatedButton(
-            onPressed: () => context.go('/'),
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-              elevation: 10.0,
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Go to HomePage',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          const Column(
+            children: [
+              SocialMediaDivider(),
+              SizedBox(height: 20),
+              GoogleSignInButton(),
+              SizedBox(height: 20),
+            ],
+          )
         ],
       ),
     );
