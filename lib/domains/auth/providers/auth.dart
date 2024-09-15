@@ -42,6 +42,7 @@ class Auth extends _$Auth {
   }
 
   Future<void> signOut() async {
+    await _googleService.signOut();
     state = state.copyWith(isAuthenticated: false);
   }
 }
