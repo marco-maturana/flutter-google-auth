@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:flutter_google_auth/domains/auth/providers/auth.dart';
 
 import 'social_media_login_button.dart';
 
@@ -16,12 +17,11 @@ class GoogleSignInButton extends HookConsumerWidget {
       logoImgPath: 'assets/images/google_logo.png',
       onPressed: () async {
         try {
-          if (!context.mounted) return;
-
-          context.go('/');
+          await ref.read(authProvider.notifier).signIn();
         } catch (e) {
-          if (!context.mounted) return;
-          if (kDebugMode) print(e);
+          if (kDebugMode) {
+            print(e);
+          }
         }
       },
       text: 'Sign in with Google',
