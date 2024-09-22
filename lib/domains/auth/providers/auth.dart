@@ -26,19 +26,15 @@ class Auth extends _$Auth {
   }
 
   Future<void> signIn() async {
-    final GoogleTokens(:idToken) = await _googleService.signIn();
+    final GoogleSignInResult(:user) = await _googleService.signIn();
 
-    if (kDebugMode) {
-      print('idToken: $idToken');
-    }
+    ref.read(currentUserProvider.notifier).user = User(
+      id: user.id,
+      email: user.email,
+      firstName: user.displayName ?? 'unknown',
+    );
 
     state = state.copyWith(isAuthenticated: true);
-    ref.read(currentUserProvider.notifier).user = const User(
-      id: 'fake_id',
-      firstName: 'fake_first_name',
-      lastName: 'fake_last_name',
-      email: 'fake_email@gmail.com',
-    );
   }
 
   Future<void> signOut() async {

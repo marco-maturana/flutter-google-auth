@@ -3,10 +3,26 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleTokens {
-  final String idToken;
-  final String? accessToken;
+  const GoogleTokens({required String idToken, String? accessToken});
+}
 
-  const GoogleTokens(this.idToken, this.accessToken);
+class GoogleUser {
+  final String id;
+  final String email;
+  final String? displayName;
+
+  const GoogleUser({
+    required this.id,
+    required this.email,
+    this.displayName,
+  });
+}
+
+class GoogleSignInResult {
+  final GoogleTokens tokens;
+  final GoogleUser user;
+
+  const GoogleSignInResult({required this.tokens, required this.user});
 }
 
 class GoogleService {
@@ -43,6 +59,22 @@ class GoogleService {
     return googleSignInAuth;
   }
 
+  Future<GoogleUser?> _user() async {
+    if (await _googleSignIn.isSignedIn()) {
+      final GoogleSignInAccount? googleUser = _googleSignIn.currentUser;
+
+      if (googleUser != null) {
+        return GoogleUser(
+          id: googleUser.id,
+          displayName: googleUser.displayName,
+          email: googleUser.email,
+        );
+      }
+    }
+
+    return null;
+  }
+
   void _printingIdToken(idToken) {
     String token = idToken;
 
@@ -61,7 +93,7 @@ class GoogleService {
     }
   }
 
-  Future<GoogleTokens> signIn() async {
+  Future<GoogleSignInResult> signIn() async {
     final GoogleSignInAuthentication(:idToken, :accessToken) =
         await _openAuthPopUp();
 
@@ -71,7 +103,20 @@ class GoogleService {
 
     if (kDebugMode) _printingIdToken(idToken);
 
-    return GoogleTokens(idToken, accessToken);
+    final googleUser = await _user();
+
+    if (googleUser == null) {
+      throw Exception('Something went wrong with Google Authentication');
+    }
+
+    return GoogleSignInResult(
+      tokens: GoogleTokens(idToken: idToken, accessToken: accessToken),
+      user: GoogleUser(
+        id: googleUser.id,
+        email: googleUser.email,
+        displayName: googleUser.displayName,
+      ),
+    );
   }
 
   Future<void> signOut() async {
