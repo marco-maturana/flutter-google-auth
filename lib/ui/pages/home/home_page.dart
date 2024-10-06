@@ -4,7 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_google_auth/domains/auth/providers/auth.dart';
 import 'package:flutter_google_auth/ui/templates/default/default_template.dart';
 
-class HomePage extends HookConsumerWidget {
+import 'components/home_title.dart';
+
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
@@ -15,9 +17,7 @@ class HomePage extends HookConsumerWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 50),
-            child: Text(
-              'Home Page',
-            ),
+            child: HomeTitle(),
           ),
           ElevatedButton(
             onPressed: () async =>
