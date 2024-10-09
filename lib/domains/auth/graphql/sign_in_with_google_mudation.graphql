@@ -1,0 +1,20 @@
+type UserAuth {
+  token: String!
+  user: User!
+}
+
+extend type Mutation {
+  signInWithGoogle(googleToken: String!): UserAuth!
+}
+
+mutation SignInWithGoogle($googleToken: String!) {
+  signInWithGoogle(googleToken: $googleToken) {
+    token
+    user {
+      _id
+      email
+      firstName
+      lastName
+    }
+  }
+}

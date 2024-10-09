@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+
 import 'package:flutter_google_auth/services/secure_storage.dart';
 
 class GraphQlService {

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'package:flutter_google_auth/services/graphql.dart';
-
 import 'package:flutter_google_auth/ui/app.dart';
 
 Future<void> main() async {

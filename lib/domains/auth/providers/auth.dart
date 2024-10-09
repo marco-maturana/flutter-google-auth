@@ -2,9 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:flutter_google_auth/domains/auth/models/user.dart';
+import 'package:flutter_google_auth/domains/auth/graphql/sign_in_with_google_mutation.dart';
 import 'package:flutter_google_auth/domains/auth/providers/current_user.dart';
 import 'package:flutter_google_auth/domains/auth/services/google.dart';
+import 'package:flutter_google_auth/services/secure_storage.dart';
 
 part 'auth.freezed.dart';
 part 'auth.g.dart';
@@ -26,14 +27,14 @@ class Auth extends _$Auth {
   }
 
   Future<void> signIn() async {
-    final GoogleSignInResult(:user) = await _googleService.signIn();
+    final GoogleTokens(:idToken) = await _googleService.signIn();
+    final SignInWithGoogleResult(:user, :token) =
+        await signInWithGoogleMutation(idToken);
 
-    ref.read(currentUserProvider.notifier).user = User(
-      id: user.id,
-      email: user.email,
-      firstName: user.displayName ?? 'unknown',
-    );
+    final storage = SecureStorage.getInstance();
+    await storage.setJwtToken(token);
 
+    ref.read(currentUserProvider.notifier).user = user;
     state = state.copyWith(isAuthenticated: true);
   }
 
