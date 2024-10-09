@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:flutter_google_auth/domains/auth/providers/auth.dart';
+import 'package:flutter_google_auth/ui/widgets/message_snack_bar.dart';
 
 import 'social_media_login_button.dart';
 
@@ -28,6 +29,15 @@ class GoogleSignInButton extends HookConsumerWidget {
           if (kDebugMode) {
             print(e);
           }
+
+          if (!context.mounted) return;
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            MessageSnackBar(
+              message: 'Something went wrong. Try again',
+              type: MessageType.error,
+            ),
+          );
         }
 
         isLoading.value = false;
